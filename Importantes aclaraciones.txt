@@ -1,0 +1,27 @@
+Senti que la mejor manera de resolver el ejercicio era creando una base de datos 
+que estuviese especializada para guardar y fetchear la data del clima.
+
+El error que podemos encontrar cuando inicializamos por primera vez es que 'Database 'tgx' does not exist on the database server at 'tgx-db-postgres:5432'
+
+Deberiamos conectarnos a la base de datos con "docker exec -it <container_id> psql -U postgres"
+y correr los siguientes comandos: 
+
+CREATE DATABASE tgx;
+
+CREATE TABLE public."Weather" (
+  id SERIAL PRIMARY KEY,
+  city VARCHAR(255),
+  dateandtime TIMESTAMP,
+  celsiustemperature FLOAT,
+  condition VARCHAR(255),
+  conditionicon VARCHAR(255)
+);
+
+Una vez creada la base de datos y su tabla, podremos utilizar la aplicacion. Los datos de clima que 
+sean requeridos por el usuario se guardaran en la base de datos y seran renderizadas
+en el cliente.
+
+Otro método que quise probar fue creando un archivo init.sql en la carpeta docker-init-scripts con las instrucciones antes mencionadas y hacer que el docker.compose.yml corra ese archivo cuando se montan los containers, pero no me funcionó.
+
+
+

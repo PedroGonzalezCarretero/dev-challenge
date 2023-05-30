@@ -1,0 +1,54 @@
+version: "3.8"
+networks:
+  tgf-backend:
+services:
+  tgx-db-postgres:
+    image: "postgis/postgis:14-3.3-alpine"
+    container_name: tgx-db-postgres
+    restart: always
+    ports:
+      - "1661:5432"
+    volumes:
+      # - "C:/Users/Santiago/Desktop/database-for-testing:/var/lib/postgresql/data"
+      - ${DATA_PATH_HOST}/postgres_db:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    networks:
+      tgf-backend:
+
+  tgx-backend:
+    env_file:
+      - ./envs/tgx-backend.env
+    container_name: tgx-backend
+    environment:
+      - LOCAL_PORT_API=${LOCAL_PORT_BACKEND}
+      - LOCAL_GRPC_PORT_API=${LOCAL_PORT_GRPC_BACKEND}
+      - LOCAL_DEBUG_PORT=${LOCAL_PORT_DEBUG_BACKEND}
+    ports:
+      - "${LOCAL_PORT_BACKEND}:3000"
+      - "9002:9229"
+    command: "sh /server/entrypoint.sh"
+    volumes:
+      - "${BACKEND_CODE_PATH_HOST}/:/server"
+    build:
+      context: ${BACKEND_CODE_PATH_HOST}
+    networks:
+      tgf-backend:
+
+  tgx-frontend:
+    container_name: tgx-frontend
+    env_file:
+      - ./envs/tgx-frontend.env
+    build:
+      context: ${FRONTEND_CODE_PATH_HOST}
+      target: development
+    volumes:
+      - "${FRONTEND_CODE_PATH_HOST}/:/app"
+      - "/app/node_modules"
+    ports:
+      - "${LOCAL_PORT_FRONTEND}:3000"
+    depends_on:
+      - tgx-backend
+    networks:
+      tgf-backend:

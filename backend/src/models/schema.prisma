@@ -1,0 +1,32 @@
+// Prisma's docs https://www.prisma.io/docs/concepts/components/prisma-schema
+// The connection string is located in this directory in .env file
+
+datasource db {
+    url      = "postgres://postgres:secret@tgx-db-postgres:5432/tgx"
+    provider = "postgresql"
+}
+
+// VER ARCHIVO 'IMPORTANTES ACLARACIONES' EN LA CARPETA DE LA RESOLUCION
+
+generator client {
+  provider = "prisma-client-js"
+  // binaryTargets = ["native", "windows", "linux-musl-openssl-3.0.x"]
+}
+
+model User {
+    id          String @id @default(cuid())
+    username    String
+    password    String
+    email       String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+}
+
+model Weather {
+  id                  Int      @id @default(autoincrement())
+  city                String
+  dateandtime         DateTime
+  celsiustemperature  Float
+  condition           String
+  conditionicon       String
+}
