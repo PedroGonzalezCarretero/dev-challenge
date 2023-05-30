@@ -9,8 +9,8 @@ services:
     ports:
       - "1661:5432"
     volumes:
-      # - "C:/Users/Santiago/Desktop/database-for-testing:/var/lib/postgresql/data"
-      - ${DATA_PATH_HOST}/postgres_db:/var/lib/postgresql/data
+      - "C:/Users/Santiago/Desktop/database-focd .r-testing:/var/lib/postgresql/data"
+      # - ${DATA_PATH_HOST}/postgres_db:/var/lib/postgresql/data
 
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}

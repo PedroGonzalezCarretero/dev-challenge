@@ -1,3 +1,8 @@
+
+Sobre la base de datos:
+
+Me encontré con errores cuando la línea que especifica los "volumes" en docker.compose.yml tenía una ruta que ya había contenido una base de datos anteriormente, de forma que se van a encontrar con una ruta alternativa que creé para testear la app luego de publicarla y descargarla.
+
 Senti que la mejor manera de resolver el ejercicio era creando una base de datos 
 que estuviese especializada para guardar y fetchear la data del clima.
 
@@ -7,6 +12,8 @@ Deberiamos conectarnos a la base de datos con "docker exec -it <container_id> ps
 y correr los siguientes comandos: 
 
 CREATE DATABASE tgx;
+
+\c tgx
 
 CREATE TABLE public."Weather" (
   id SERIAL PRIMARY KEY,
@@ -22,6 +29,8 @@ sean requeridos por el usuario se guardaran en la base de datos y seran renderiz
 en el cliente.
 
 Otro método que quise probar fue creando un archivo init.sql en la carpeta docker-init-scripts con las instrucciones antes mencionadas y hacer que el docker.compose.yml corra ese archivo cuando se montan los containers, pero no me funcionó.
+
+
 
 
 

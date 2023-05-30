@@ -7,8 +7,6 @@ async function fetchWeather(apiKey, latitude, longitude) {
 
         const response = await fetch(apiUrl);
 
-        console.log('Weather API URL:', apiUrl);
-
         if (!response.ok) {
             throw new Error(
                 `Weather API request failed with status ${response.status}`
@@ -16,8 +14,6 @@ async function fetchWeather(apiKey, latitude, longitude) {
         }
 
         const weatherData = await response.json();
-
-        console.log(weatherData);
 
         const currentWeather = {
             city: weatherData.location.name,
@@ -27,7 +23,6 @@ async function fetchWeather(apiKey, latitude, longitude) {
             conditionIcon: weatherData.current.condition.icon,
         };
 
-        // Validate the currentWeather object
         if (
             currentWeather.city &&
             currentWeather.readingTimeAndDate &&
@@ -47,19 +42,14 @@ async function fetchWeather(apiKey, latitude, longitude) {
 
             console.log('Weather created:', createdWeather);
         } else {
-            // Handle the case when any required field is missing or null
             throw new Error('Invalid currentWeather object');
-            // Or skip the creation process and return null
-            // return null;
         }
 
         return currentWeather;
     } catch (error) {
-        // Handle any errors that occur during the API request
         console.error('Error fetching weather:', error.message);
         throw error;
     } finally {
-        // Disconnect from the Prisma client after the operation
         await prisma.$disconnect();
     }
 }

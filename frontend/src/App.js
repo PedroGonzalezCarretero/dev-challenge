@@ -6,7 +6,7 @@ function App() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  const apiUrl = `http://localhost:9000/weather`; // Update the API endpoint URL
+  const apiUrl = process.env.REACT_APP_API_URL_WEATHER;
 
   async function fetchData() {
     try {
@@ -29,8 +29,6 @@ function App() {
       } else {
         throw new Error("Request failed with status: " + response.status);
       }
-
-      // Rest of the code...
     } catch (error) {
       console.error("Error fetching weather data:", error.message);
       throw error;
@@ -40,18 +38,16 @@ function App() {
   const [weatherHistory, setWeatherHistory] = useState([]);
 
   useEffect(() => {
-    // Fetch initial weather history
     fetchWeatherHistory();
   }, [data]);
 
   function handleHistoryClick(weather) {
-    // Set the selected weather entry to the data state
     setData(weather);
   }
 
   async function fetchWeatherHistory() {
     try {
-      const response = await fetch("http://localhost:9000/history", {
+      const response = await fetch(process.env.REACT_APP_API_URL_HISTORY, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +101,7 @@ function App() {
             <div>
               <p>{data.city}</p>
               <p>{data.celsiusTemperature} °C</p>
-              <img src={data.conditionIcon} />
+              <img src={data.conditionIcon} alt={"conditionIcon"} />
             </div>
 
             <div>
